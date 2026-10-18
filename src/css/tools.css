@@ -1,0 +1,566 @@
+/* ============================================================
+   QUIET PRODUCTIVITY SUITE & WANDER MODE STYLES
+   Focus Timer, Day Memory, File Basket, Split-Flap, Shared Cord
+   ============================================================ */
+
+/* ── 1. Focus Timer ───────────────────────────────────────── */
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.timer-circle {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(28, 24, 42, 0.9), rgba(11, 8, 18, 0.95));
+  border: 2px solid var(--line-strong);
+  box-shadow: 0 0 35px rgba(242, 193, 78, 0.12), inset 0 0 25px rgba(0, 0, 0, 0.6);
+  margin-bottom: 22px;
+}
+
+.timer-digits {
+  font-family: var(--serif);
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+}
+
+.timer-sub {
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.timer-chips {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.timer-chip {
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--dim);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.timer-chip:hover {
+  color: var(--cream);
+  border-color: var(--gold);
+}
+
+.timer-chip.active {
+  background: var(--gold-cta);
+  color: #1a1002;
+  border-color: var(--gold-cta);
+  font-weight: 700;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ── 2. Day Memory ────────────────────────────────────────── */
+.memory-container {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  padding: 10px;
+}
+
+@media (max-width: 760px) {
+  .memory-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.memory-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.memory-textarea {
+  width: 100%;
+  height: 220px;
+  background: rgba(14, 11, 21, 0.85);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 16px;
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.memory-textarea:focus {
+  border-color: var(--gold);
+}
+
+.memory-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.memory-privacy-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--dim);
+}
+
+.memory-info-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.memory-info-card h4 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--cream);
+}
+
+.memory-info-card p {
+  font-size: 0.82rem;
+  color: var(--dim);
+  line-height: 1.6;
+}
+
+/* ── 3. File Basket ───────────────────────────────────────── */
+.basket-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 10px;
+}
+
+@media (max-width: 760px) {
+  .basket-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.basket-drop-zone {
+  border: 2px dashed var(--line);
+  border-radius: var(--r-md);
+  padding: 32px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.015);
+  transition: all 0.25s ease;
+}
+
+.basket-drop-zone.drag-over {
+  border-color: var(--gold-cta);
+  background: rgba(242, 193, 78, 0.08);
+  transform: scale(1.02);
+}
+
+.basket-drop-icon {
+  font-size: 2.4rem;
+}
+
+.basket-drop-zone b {
+  color: var(--cream);
+  font-size: 0.92rem;
+}
+
+.basket-drop-zone span {
+  font-size: 0.78rem;
+  color: var(--dim);
+}
+
+.basket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.basket-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(20, 16, 29, 0.85);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+}
+
+.bi-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.bi-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bi-meta {
+  font-size: 0.72rem;
+  color: var(--dim);
+}
+
+.bi-remove {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.bi-remove:hover {
+  color: #ef4444;
+}
+
+.empty-basket {
+  padding: 32px 16px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--dim);
+  font-style: italic;
+  font-family: var(--serif);
+}
+
+/* ── 4. Split-Flap Scoreboard ─────────────────────────────── */
+.splitflap-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+  gap: 20px;
+}
+
+.splitflap-board {
+  display: flex;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: linear-gradient(155deg, #e9cc70, #a87f1f 48%, #6b4c10);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.flap-cell {
+  position: relative;
+  width: 32px;
+  height: 44px;
+  background: #0d0a15;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--cream);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.flap-cell.num {
+  color: var(--gold-cta);
+}
+
+/* Horizontal seam across middle of every flap */
+.flap-cell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.flap-cell.flip {
+  animation: flapFlip 0.09s linear infinite;
+}
+
+@keyframes flapFlip {
+  0% { transform: perspective(90px) rotateX(0deg); }
+  50% { transform: perspective(90px) rotateX(-90deg); }
+  100% { transform: perspective(90px) rotateX(0deg); }
+}
+
+.flap-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.flap-preset-chip {
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--dim);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.flap-preset-chip.active {
+  background: var(--gold-cta);
+  color: #1a1002;
+  font-weight: 700;
+}
+
+.flap-custom-input {
+  background: rgba(14, 11, 21, 0.8);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  color: var(--cream);
+  font-size: 0.8rem;
+  outline: none;
+}
+
+/* ── 5. Shared Cord Simulator ─────────────────────────────── */
+.shared-cord-stage {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  margin-top: 10px;
+}
+
+.cord-station {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.station-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.mini-hang {
+  position: relative;
+  width: 70px;
+  height: 90px;
+}
+
+.twin-hang-charm.swinging {
+  animation: twinSwing 1.8s ease-in-out infinite;
+  transform-origin: 50% 10px;
+}
+
+@keyframes twinSwing {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.shared-wire {
+  position: relative;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, rgba(227, 181, 92, 0.3) 0 4px, transparent 4px 10px);
+}
+
+.shared-wire-bead {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold-cta);
+  box-shadow: 0 0 10px var(--gold-cta);
+  opacity: 0;
+}
+
+.shared-wire-bead.travel {
+  animation: beadTravel 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes beadTravel {
+  0% { left: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: calc(100% - 10px); opacity: 0; }
+}
+
+/* ── 6. Wander Mode Desktop Pet ────────────────────────────── */
+.wander-container {
+  position: fixed;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 1000;
+  display: none;
+}
+
+.wander-container.active {
+  display: block;
+}
+
+.wander-walker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 74px;
+  height: 96px;
+  pointer-events: auto;
+  cursor: grab;
+  will-change: transform;
+  transition: filter 0.2s ease;
+}
+
+.wander-walker:hover {
+  filter: drop-shadow(0 0 10px rgba(242, 193, 78, 0.45));
+}
+
+.wander-walker.being-dragged {
+  cursor: grabbing !important;
+  transform: scale(1.12) !important;
+  filter: drop-shadow(0 16px 28px rgba(242, 193, 78, 0.6)) !important;
+}
+
+.wander-walker.hop {
+  animation: walkerHop 0.45s cubic-bezier(0.18, 1.2, 0.3, 1);
+}
+
+.wander-walker.dropping {
+  animation: walkerDrop 0.6s cubic-bezier(0.2, 1.1, 0.3, 1);
+}
+
+@keyframes walkerHop {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-34px); }
+}
+
+@keyframes walkerDrop {
+  0% { transform: translateY(-240px); opacity: 0; }
+  70% { transform: translateY(0); opacity: 1; }
+  85% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+.wander-avatar {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.6));
+  transition: transform 0.1s linear;
+}
+
+.wander-shadow {
+  position: absolute;
+  bottom: -4px;
+  left: 12px;
+  right: 12px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  filter: blur(2px);
+}
+
+.wander-speech {
+  position: absolute;
+  bottom: 102px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 11, 21, 0.94);
+  border: 1px solid var(--gold);
+  border-radius: var(--r-md);
+  padding: 8px 14px;
+  font-size: 0.78rem;
+  color: var(--cream);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: var(--sh-2);
+  transition: opacity 0.25s ease;
+  z-index: 1010;
+}
+
+.wander-speech.visible {
+  opacity: 1;
+}
+
+.wander-speech::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--gold);
+}
+
+.wander-rehang-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(180deg, #f7d073, #e5ae40);
+  border: none;
+  border-radius: var(--r-pill);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #1a1002;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s, filter 0.2s;
+  z-index: 1020;
+}
+
+.wander-rehang-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' file:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' file: data: blob:; connect-src 'self' file:;">
+  <title>Charmling — Lucky Charm & Focus Companion for Windows</title>
+  <link rel="stylesheet" href="./src/css/main.css">
+  <link rel="stylesheet" href="./src/css/cord.css">
+  <link rel="stylesheet" href="./src/css/vitrine.css">
+  <link rel="stylesheet" href="./src/css/tools.css">
+</head>
+<body>
+  <!-- Atmospheric background layers -->
+  <div class="atmosphere"></div>
+  <div class="grain"></div>
+
+  <!-- Custom Gold Bead Cursor -->
+  <div class="cur-dot" id="curDot"></div>
+  <div class="cur-ring" id="curRing"></div>
+
+  <!-- Main Hanging Charm Stage -->
+  <div class="charm-stage" id="charmStage">
+    <!-- Architectural Top Symmetrical Lintel Bar -->
+    <header class="charm-top-bar" id="charmTopBar">
+      <nav class="top-nav-group left-nav">
+        <button class="icon-btn" id="openDrawerBtn" title="Open Vitrine & Lore Drawer (Space / Click)">🪟</button>
+        <button class="icon-btn" id="desktopPlacementBtn" title="Place Charm Anywhere on Desktop">📌</button>
+      </nav>
+
+      <!-- Center Brass Lintel & Desktop Drag Grip -->
+      <div class="desktop-drag-handle" id="desktopDragHandle" title="✥ Drag to move anywhere on Windows Desktop! Double-click to open Drawer.">
+        <span class="drag-grip-bar"></span>
+        <span class="drag-bead" id="topBailTrigger"></span>
+        <span class="drag-tooltip">✥ Drag Anywhere</span>
+      </div>
+
+      <nav class="top-nav-group right-nav">
+        <button class="icon-btn" id="toggleModeBtn" title="Switch Floating / Studio Mode">🔲</button>
+        <button class="icon-btn" id="muteToggleBtn" title="Toggle Sound">🔔</button>
+      </nav>
+    </header>
+
+    <!-- Desktop Placement Quick Popover -->
+    <div class="desktop-placement-popover glass" id="desktopPlacementPopover">
+      <div class="placement-header">
+        <b>Desktop Placement</b>
+        <button class="placement-close-btn" id="closePlacementBtn">✕</button>
+      </div>
+      <div class="placement-presets-grid">
+        <button class="preset-btn" data-preset="top-center">📌 Top Center</button>
+        <button class="preset-btn" data-preset="top-right">📌 Top Right</button>
+        <button class="preset-btn" data-preset="top-left">📌 Top Left</button>
+        <button class="preset-btn" data-preset="bottom-right">🐾 Bottom Right</button>
+        <button class="preset-btn" data-preset="bottom-left">🐾 Bottom Left</button>
+        <button class="preset-btn" data-preset="center">✨ Center Float</button>
+      </div>
+      <div class="placement-hint">
+        💡 <b>Tip:</b> Click &amp; drag the center gold bead or <b>Alt+Drag</b> the charm to glide it anywhere on any monitor!
+      </div>
+    </div>
+
+    <!-- Elastic Cord Physics Canvas -->
+    <canvas class="cord-canvas" id="cordCanvas"></canvas>
+
+    <!-- Ambient Luminous Glow behind Charm -->
+    <div class="charm-ambient-glow" id="charmAmbientGlow"></div>
+
+    <!-- Interactive Hanging Charm -->
+    <div class="hanging-charm" id="hangingCharm" title="Pull me! Click to squish & pet. Drag anywhere with Alt+Drag. Double-click for sparks."></div>
+
+    <!-- Desktop File Drop Blessing Zone Overlay -->
+    <div class="file-bless-overlay" id="fileBlessOverlay">
+      <div class="bless-ring"></div>
+      <div class="bless-icon">✨</div>
+      <div class="bless-title">Drop File to Bless</div>
+      <div class="bless-sub">Grant good luck & stash in Day Basket</div>
+    </div>
+
+    <!-- Floating Lucky Blessing Toast -->
+    <div class="blessing-toast glass" id="blessingToast"></div>
+  </div>
+
+  <!-- Drawer Backdrop Blur -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+  <!-- Glassmorphic Vitrine & Tools Drawer -->
+  <aside class="vitrine-drawer glass" id="vitrineDrawer">
+    <!-- Header -->
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <h2>Charmling</h2>
+        <span>Good luck, hanging right there.</span>
+      </div>
+
+      <!-- Shelf Switcher -->
+      <nav class="shelf-nav" role="tablist">
+        <button class="shelf-tab active" data-shelf="charms">The Collection</button>
+        <button class="shelf-tab" data-shelf="garden">The Garden</button>
+        <button class="shelf-tab" data-shelf="tools">Quiet Tools</button>
+        <button class="shelf-tab" data-shelf="sounds">Acoustic Vitrine</button>
+      </nav>
+
+      <button class="icon-btn" id="closeDrawerBtn" title="Close Drawer">✕</button>
+    </div>
+
+    <!-- Shelf Content Panels -->
+    <div class="shelf-panels">
+      <!-- ── SHELF 1: CHARMS COLLECTION & LORE ────────────── -->
+      <section class="shelf-panel active" id="shelf-charms">
+        <!-- Category Filter Tabs -->
+        <div class="vit-cat-tabs" id="vitrineCatTabs"></div>
+
+        <!-- Vitrine Layout: Grid + Lore Display Case -->
+        <div class="vitrine-layout">
+          <!-- Cards Grid -->
+          <div class="vitrine-grid" id="vitrineGrid"></div>
+
+          <!-- Folklore Display Case -->
+          <div class="vitrine-case">
+            <div class="case-stage">
+              <div class="case-cord"></div>
+              <div class="case-avatar" id="vitrineCaseAvatar"></div>
+              <!-- 3D WebGL Talisman Stage Canvas -->
+              <div class="case-3d-canvas-wrap hidden" id="case3DCanvasWrap">
+                <canvas id="talisman3DCanvas"></canvas>
+              </div>
+              <button class="toggle-3d-btn" id="toggle3DBtn" title="Toggle 3D WebGL Sacred Shrine View">
+                <span class="icon-3d">✨ 3D Shrine</span>
+              </button>
+            </div>
+
+            <div class="case-title">
+              <h3 id="vitrineCaseName">Drishti Bomma</h3>
+              <div class="case-origin" id="vitrineCaseOrigin">Telugu India</div>
+            </div>
+
+            <p class="case-story" id="vitrineCaseStory">
+              A fierce guardian face hung high on buildings across Andhra and Telangana so an envious glance lands there first.
+            </p>
+
+            <!-- Ritual Box -->
+            <div class="case-ritual">
+              <div class="ritual-header">
+                <b>Ritual</b>
+                <span id="ritualActionName">Change War Paint</span>
+              </div>
+              <div class="ritual-desc" id="vitrineRitualDesc">
+                The guardian re-fierces in fresh crimson and emerald. Tradition keeps the glare potent by renewing it.
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="case-actions">
+              <button class="btn-gold" id="executeRitualBtn">✨ Perform Ritual</button>
+              <button class="btn-ghost" id="equipCharmBtn">Hang on Desktop Cord</button>
+              <button class="btn-ghost" id="vitrineWanderBtn">✂️ Snip Cord (Wander Mode)</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SHELF 2: LIVING GARDEN ───────────────────────── -->
+      <section class="shelf-panel" id="shelf-garden">
+        <div style="margin-bottom: 20px;">
+          <h3 style="font-family: var(--serif); font-size: 1.5rem; color: var(--cream);">The Garden</h3>
+          <p style="color: var(--dim); font-size: 0.88rem; margin-top: 4px;">
+            Two companions that evolve with your focus over real days. No two people end up with the same one.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+          <!-- Living Bonsai Card -->
+          <div class="glass" style="padding: 24px; border-radius: var(--r-md); text-align: center;">
+            <div style="font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 700;">Living Bonsai</div>
+            <h4 style="font-family: var(--serif); font-size: 1.3rem; margin: 6px 0;">Japanese Juniper</h4>
+            <p style="color: var(--dim); font-size: 0.82rem; margin-bottom: 16px;">
+              Feeds on your focus sessions. Sprouts, branches, and eventually blossoms into cherry flowers.
+            </p>
+            <button class="btn-gold" id="waterBonsaiDirectBtn" onclick="window.app.vitrine.executeRitual()">
+              💧 Water with Focus
+            </button>
+          </div>
+
+          <!-- Living Dragon Nest -->
+          <div class="glass" style="padding: 24px; border-radius: var(--r-md); text-align: center;">
+            <div style="font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 700;">Dragon Nest</div>
+            <h4 style="font-family: var(--serif); font-size: 1.3rem; margin: 6px 0;">Obsidian Hatchling</h4>
+            <p style="color: var(--dim); font-size: 0.82rem; margin-bottom: 16px;">
+              Glows with thermal energy accumulated from productive hours until the shell fractures.
+            </p>
+            <button class="btn-gold" id="warmDragonDirectBtn" onclick="window.app.vitrine.executeRitual()">
+              🔥 Warm the Nest
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SHELF 3: QUIET TOOLS ─────────────────────────── -->
+      <section class="shelf-panel" id="shelf-tools">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px;">
+
+          <!-- Tool 1: Focus Timer -->
+          <div class="glass timer-container" style="border-radius: var(--r-md);">
+            <div class="timer-circle">
+              <div class="timer-digits" id="timerDisplay">25:00</div>
+              <div class="timer-sub">Zen Singing Bowl</div>
+            </div>
+
+            <div class="timer-chips">
+              <button class="timer-chip active" data-mins="25">25m Pomodoro</button>
+              <button class="timer-chip" data-mins="50">50m Deep Work</button>
+              <button class="timer-chip" data-mins="10">10m Sprint</button>
+            </div>
+
+            <div class="timer-controls">
+              <button class="btn-gold" id="timerToggleBtn">Begin Focus</button>
+              <button class="btn-ghost" id="timerResetBtn">Reset</button>
+              <button class="btn-ghost" id="timerAmbientBtn">🌧️ Rain Ambient</button>
+            </div>
+          </div>
+
+          <!-- Tool 2: Day Memory -->
+          <div class="glass memory-container" style="border-radius: var(--r-md); grid-column: span 1;">
+            <div class="memory-editor">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <b style="font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold);">Day Memory</b>
+                <div class="memory-privacy-badge">
+                  <input type="checkbox" id="autoDecayToggle" checked>
+                  <label for="autoDecayToggle" title="Self-erases locally after 48 hours for ultimate privacy">48h Auto-decay</label>
+                </div>
+              </div>
+              <textarea class="memory-textarea" id="dayMemoryText" placeholder="What did you work on today? Notes stay 100% on your machine..."></textarea>
+              <div class="memory-actions">
+                <button class="btn-ghost" id="copyNotesBtn">Copy Standup</button>
+                <button class="btn-ghost" id="clearNotesBtn" style="color: #ef4444;">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tool 3: Split-Flap Scoreboard -->
+          <div class="glass splitflap-wrap" style="border-radius: var(--r-md); grid-column: 1 / -1;">
+            <div style="font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 700;">Mechanical Split-Flap Ticker</div>
+            <div class="splitflap-board" id="splitFlapBoard"></div>
+            <div class="flap-controls">
+              <button class="flap-preset-chip active" data-text="FOCUS TIME">FOCUS TIME</button>
+              <button class="flap-preset-chip" data-text="GOOD LUCK">GOOD LUCK</button>
+              <button class="flap-preset-chip" data-text="DEEP WORK">DEEP WORK</button>
+              <button class="flap-preset-chip" data-text="CLOCK">LIVE TIME</button>
+              <input type="text" class="flap-custom-input" id="flapCustomInput" placeholder="Type custom message..." maxlength="12">
+            </div>
+          </div>
+
+          <!-- Tool 4: File Basket -->
+          <div class="glass basket-container" style="border-radius: var(--r-md); grid-column: 1 / -1;">
+            <div class="basket-drop-zone" id="fileBasketDrop">
+              <div class="basket-drop-icon">🧺</div>
+              <b>Drop files into the Basket</b>
+              <span>Stash files temporarily or preview metadata</span>
+            </div>
+            <div class="basket-list" id="basketItemsList">
+              <div class="empty-basket">No files stashed yet. Drag anything from your desktop here.</div>
+            </div>
+          </div>
+
+          <!-- Tool 5: Shared Cord Simulator -->
+          <div class="glass shared-cord-stage" style="border-radius: var(--r-md); grid-column: 1 / -1;">
+            <div class="cord-station">
+              <div class="station-label">Your Screen</div>
+              <div class="mini-hang">
+                <div style="width: 2px; height: 35px; background: var(--gold); margin: 0 auto;"></div>
+                <div style="width: 48px; height: 50px; background: rgba(242, 193, 78, 0.2); border: 1px solid var(--gold); border-radius: 8px; margin: 0 auto; display: grid; place-items: center; font-size: 1.4rem;">🧿</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="shared-wire">
+                <div class="shared-wire-bead" id="sharedWireBead"></div>
+              </div>
+              <button class="btn-gold" id="sharedPullBtn" style="margin-top: 14px; font-size: 0.78rem; padding: 6px 14px; width: 100%;">
+                Pull Cord
+              </button>
+            </div>
+
+            <div class="cord-station">
+              <div class="station-label">Companion Screen</div>
+              <div class="mini-hang twin-hang-charm" id="twinHangCharm">
+                <div style="width: 2px; height: 35px; background: var(--gold); margin: 0 auto;"></div>
+                <div style="width: 48px; height: 50px; background: rgba(242, 193, 78, 0.2); border: 1px solid var(--gold); border-radius: 8px; margin: 0 auto; display: grid; place-items: center; font-size: 1.4rem;">🔔</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── SHELF 4: ACOUSTIC VITRINE & SOUNDBOARD ────────── -->
+      <section class="shelf-panel" id="shelf-sounds">
+        <div style="margin-bottom: 20px;">
+          <h3 style="font-family: var(--serif); font-size: 1.5rem; color: var(--cream);">Acoustic Vitrine</h3>
+          <p style="color: var(--dim); font-size: 0.85rem; margin-top: 4px;">
+            Harmonic physical soundscapes synthesized live via the Web Audio API with zero recorded samples.
+          </p>
+        </div>
+
+        <div class="sound-vitrine-grid">
+          <!-- CATEGORY 1: SACRED & DESK BELLS -->
+          <div class="sound-category-card glass">
+            <div class="sound-cat-header">
+              <span class="sound-cat-icon">🔔</span>
+              <b>Bells &amp; Harmonic Chimes</b>
+            </div>
+            <div class="sound-btn-grid">
+              <button class="sound-play-chip" data-sound="tibetan">
+                <span class="sound-name">Tibetan Bowl</span>
+                <span class="sound-freq">432 Hz Drone</span>
+              </button>
+              <button class="sound-play-chip" data-sound="furin">
+                <span class="sound-name">Edo Glass Furin</span>
+                <span class="sound-freq">1175 Hz Crystal</span>
+              </button>
+              <button class="sound-play-chip" data-sound="silver">
+                <span class="sound-name">Silver Temple</span>
+                <span class="sound-freq">880 Hz Harmonic</span>
+              </button>
+              <button class="sound-play-chip" data-sound="desk">
+                <span class="sound-name">Vintage Desk Bell</span>
+                <span class="sound-freq">1760 Hz Ding!</span>
+              </button>
+              <button class="sound-play-chip" data-sound="gong">
+                <span class="sound-name">Zen Meditation Gong</span>
+                <span class="sound-freq">216 Hz Low Wash</span>
+              </button>
+              <button class="sound-play-chip" data-sound="tubular">
+                <span class="sound-name">Tubular Chimes</span>
+                <span class="sound-freq">5-Tone Cascade</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CATEGORY 2: ANIMAL SOUNDS -->
+          <div class="sound-category-card glass">
+            <div class="sound-cat-header">
+              <span class="sound-cat-icon">🐾</span>
+              <b>Companion Animal Voices</b>
+            </div>
+            <div class="sound-btn-grid">
+              <button class="sound-play-chip" data-sound="cat-mew">
+                <span class="sound-name">Kitten Soft Mew</span>
+                <span class="sound-freq">Rising Pitch</span>
+              </button>
+              <button class="sound-play-chip" data-sound="cat-purr">
+                <span class="sound-name">Feline Purr</span>
+                <span class="sound-freq">Throat Rumble</span>
+              </button>
+              <button class="sound-play-chip" data-sound="dog-bark">
+                <span class="sound-name">Puppy Yip</span>
+                <span class="sound-freq">Playful Dual-Chirp</span>
+              </button>
+              <button class="sound-play-chip" data-sound="bird-chirp">
+                <span class="sound-name">Morning Songbird</span>
+                <span class="sound-freq">Triple Trill</span>
+              </button>
+              <button class="sound-play-chip" data-sound="frog-croak">
+                <span class="sound-name">Lotus Frog Croak</span>
+                <span class="sound-freq">Resonant Croak</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CATEGORY 3: VEHICLES & CARS -->
+          <div class="sound-category-card glass">
+            <div class="sound-cat-header">
+              <span class="sound-cat-icon">🚗</span>
+              <b>Vehicles &amp; Retro Cars</b>
+            </div>
+            <div class="sound-btn-grid">
+              <button class="sound-play-chip" data-sound="car-horn">
+                <span class="sound-name">Retro Beep-Beep</span>
+                <span class="sound-freq">Dual Harmonic</span>
+              </button>
+              <button class="sound-play-chip" data-sound="car-zoom">
+                <span class="sound-name">Roadster Motor Rev</span>
+                <span class="sound-freq">Filtered Saw Sweep</span>
+              </button>
+              <button class="sound-play-chip" data-sound="tire-squeak">
+                <span class="sound-name">Playful Drift Chirp</span>
+                <span class="sound-freq">Fast Pitch Glide</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CATEGORY 4: AMBIENCE & CHIMES -->
+          <div class="sound-category-card glass">
+            <div class="sound-cat-header">
+              <span class="sound-cat-icon">🌧️</span>
+              <b>Focus Ambience &amp; Magic</b>
+            </div>
+            <div class="sound-btn-grid">
+              <button class="sound-play-chip" data-sound="heart-chime">
+                <span class="sound-name">Celestial Sparkle</span>
+                <span class="sound-freq">C-E-G-C Arpeggio</span>
+              </button>
+              <button class="sound-play-chip" data-sound="ambient-rain">
+                <span class="sound-name">Focus Raindrop Hum</span>
+                <span class="sound-freq">Continuous Loop</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- Wander Mode Desktop Walker Pet -->
+  <div class="wander-container" id="wanderContainer"></div>
+
+  <!-- Entry Script -->
+  <script type="module" src="./src/js/app.js"></script>
+</body>
+</html>
